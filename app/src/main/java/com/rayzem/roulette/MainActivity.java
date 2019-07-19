@@ -56,6 +56,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private long mRotationTime = 0;
     private static final int ROTATION_WAIT_TIME_MS = 100;
 
+    RotateAnimation rotateAnimation;
+
 
 
     @Override
@@ -93,24 +95,25 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         gyroscopeSensor = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
 
-
-
     }
 
 
 
 
-    private void spinWheel(View roulette){
+    private void spinWheel(){
+
         lastDegreee =  degree % 360;
         degree = RANDOM_NUMBER.nextInt(360) + 720;
 
+
         //Now start the rotating animation.
-        RotateAnimation rotateAnimation = new RotateAnimation(lastDegreee, degree, RotateAnimation.RELATIVE_TO_SELF,
+        rotateAnimation = new RotateAnimation(lastDegreee, degree, RotateAnimation.RELATIVE_TO_SELF,
                 0.5f, RotateAnimation.RELATIVE_TO_SELF, 0.5f);
 
+        rotateAnimation.setDuration(3000);
 
-        rotateAnimation.setDuration(6600);
         rotateAnimation.setFillAfter(true);
+
         rotateAnimation.setInterpolator(new DecelerateInterpolator());
 
         rotateAnimation.setAnimationListener(new Animation.AnimationListener() {
@@ -121,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                resultRouletteWheel.setText(obtainSectorNumber(360 - (degree % 360)));
+                resultRouletteWheel.setText("Winner: "+obtainSectorNumber(360 - (degree % 360)));
             }
 
             @Override
@@ -129,6 +132,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
             }
         });
+
 
         rouletteWheel.startAnimation(rotateAnimation);
 
@@ -161,19 +165,22 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             Log.i("Roulette", "No accuraccy");
         }
 
-        if(sensorEvent.sensor.getType() == Sensor.TYPE_GYROSCOPE){
-            Log.i("Roulette", ""+Math.abs(sensorEvent.values[2]) );
+        if(sensorEvent.sensor.getType() == Sensor.TYPE_GYROSCOPE)
             rotateWheel(sensorEvent);
-        }
+
     }
 
     private void rotateWheel(SensorEvent event){
         long now = System.currentTimeMillis();
 
         if((now - mRotationTime) > ROTATION_WAIT_TIME_MS){
+            if(Math.abs(event.values[2]) > 2)
+                spinWheel();
+            else if(event.values[2] <= 0 ){
+                if(rotateAnimation!=null && rotateAnimation.hasEnded()){
+                    rotateAnimation.cancel();
+                }
 
-            if(Math.abs(event.values[2]) > ROTATION_THRESHOLD){
-                spinWheel(rouletteWheel);
             }
 
         }
