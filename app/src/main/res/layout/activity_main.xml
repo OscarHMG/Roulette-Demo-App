@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/casino_background"
     tools:context=".MainActivity">
 
 
@@ -17,31 +18,34 @@
         <TextView
             android:id="@+id/tv_result_roulette_number"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
             android:textSize="32sp"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
             android:layout_centerHorizontal="true"
+            android:layout_below="@+id/roulette_wheel"
             android:layout_width="wrap_content" />
 
         <ImageView
             android:id="@+id/roulette_wheel"
             android:src="@drawable/roulette"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:scaleType="centerInside"
-            android:adjustViewBounds="true"/>
+            android:scaleType="center" />
+
+
 
         <ImageView
             android:id="@+id/indicator"
-            android:layout_width="25dp"
+            android:layout_width="30dp"
             android:layout_centerHorizontal="true"
             android:layout_above="@id/roulette_wheel"
             android:layout_marginBottom="-75dp"
-            android:layout_height="25dp"
+            android:layout_height="30dp"
             android:src="@drawable/indicator"
-            android:adjustViewBounds="true"/>
+            />
 
     </RelativeLayout>
 
