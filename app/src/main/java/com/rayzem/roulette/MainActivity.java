@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     };
     private TextView resultRouletteWheel;
     private ImageView rouletteWheel;
-    private static final Random RANDOM_NUMBER = new Random();
+    //private static final Random RANDOM_NUMBER = new Random();
 
     private int degree = 0, lastDegreee = 0;
     //37 sector in total.
@@ -103,6 +103,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private void spinWheel(){
 
         lastDegreee =  degree % 360;
+        Random RANDOM_NUMBER = new Random();
         degree = RANDOM_NUMBER.nextInt(360) + 720;
 
 
